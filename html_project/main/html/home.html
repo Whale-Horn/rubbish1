@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <title>迎新网页</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .student-info {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            height: 30px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: none;
+        }
+    </style>
+<head>
+    <h1>欢迎来到河北医科大学医学影像学院！</h1>
+    <img src="D:\迎新服务器\微信图片_20230808153526.jpg" alt="学校标志" width="200">
+
+    <title>查询-身份证号</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <h1>查询身份证号</h1>
+    <input type="text" id="id_number" placeholder="请输入身份证号" />
+    <button id="queryBtn">查询</button>
+    
+    <h2>查询结果</h2>
+    <p>专业： <span id="major"></span></p>
+    <p>姓名： <span id="name"></span></p>
+    <p>宿舍地址： <span id="dorm_location"></span></p>
+
+    <script>
+        $(document).ready(function() {
+            $("#queryBtn").click(function() {
+                var id_number = $("#id_number").val();
+                
+                $.get("http://172.20.47.88:5000/data/id_number/" + id_number, function(response) {
+                    var major = response.major;
+                    var name = response.name;
+                    var dorm_location = response.dorm_location;
+                    
+                    // 更新页面上的数据显示区域
+                    $("#major").text(major);
+                    $("#name").text(name);
+                    $("#dorm_location").text(dorm_location);
+                }).fail(function() {
+                    alert("查询失败，请重试！");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
